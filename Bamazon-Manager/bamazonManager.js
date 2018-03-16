@@ -1,6 +1,8 @@
+// Dependencies
 var mysql = require("mysql");
 var inquirer = require("inquirer");
 
+// make a connection
 var connection = mysql.createConnection({
     host: "localhost",
     port: 3306,
@@ -14,6 +16,7 @@ connection.connect(function(err){
     start();
 });
 
+// Manager's actions
 function start() {
     inquirer
     .prompt({
@@ -42,9 +45,10 @@ function start() {
             addNewProduct();
             break;
         }
-    })
+    });
 }
 
+// See all of the products for sale
 function productsForSale() {
     connection.query("SELECT * FROM products", function(err, res) {
         if (err) throw err;
@@ -55,9 +59,11 @@ function productsForSale() {
             console.log("Quantity: " + res[i].stock_quantity);
             console.log("-----------------------------");
         }
-    })
+        start();
+    });
 }
 
+// Check which items have low stock
 function lowInventory() {
     connection.query("SELECT * FROM products WHERE stock_quantity < 5", function(err, res) {
         if (err) throw err;
@@ -68,9 +74,11 @@ function lowInventory() {
             console.log("Quantity: " + res[i].stock_quantity);
             console.log("-----------------------------");
         }
-    })
+        start();
+    });
 }
 
+// Add more stock to items
 function addToInventory() {
     inquirer
     .prompt([
@@ -89,18 +97,19 @@ function addToInventory() {
         connection.query("SELECT * FROM products WHERE item_id = ?", answer.item, function(err, res){
             if (err) throw err;
             var newStock = parseInt(res[0].stock_quantity) + parseInt(answer.add);
-            console.log(newStock);
             connection.query("UPDATE products SET stock_quantity = ? WHERE item_id = ?", [newStock, answer.item], function(err, res) {
                 if (err) throw err;
                 connection.query("SELECT * FROM products WHERE item_id = ?", answer.item, function(err, res) {
                     if (err) throw err;
                     console.log(res);
-                })
+                    start();
+                });
             })
-        })
-    })
+        });
+    });
 }
 
+// Add a new product
 function addNewProduct() {
     inquirer
     .prompt([
@@ -139,7 +148,8 @@ function addNewProduct() {
                 console.log("");
                 console.log("New product has been added.");
                 console.log("-----------------------------");
-            })
-        })
-    })
+                start();
+            });
+        });
+    });
 }
