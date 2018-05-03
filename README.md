@@ -2,6 +2,8 @@
 
 ## Customer
 
+![image](https://user-images.githubusercontent.com/34924318/39559960-1b492a30-4e68-11e8-9341-f6d206373989.png)
+
 The first question asked is "What is the ID of the product you want to buy?"
 The input should be an integer value.
 
@@ -9,6 +11,8 @@ The second question asked is "How many units would you like to buy?"
 The input should be an integer value.
 
 ## Manager
+
+![image](https://user-images.githubusercontent.com/34924318/39559981-513d3c8a-4e68-11e8-9e2a-c563eb09f6fc.png)
 
 The manager has four options:
 * View Products for Sale
